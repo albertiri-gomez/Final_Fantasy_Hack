@@ -1,0 +1,74 @@
+body {
+    overflow: hidden;
+}
+
+.gamePage {
+    /* background-image: url(../img/Mainbg.jpg); */
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+    font-family: Opens Sans;
+    font-size: 2em;
+}
+
+.gamePage h1 {
+    font-size: 2.7em;
+}
+
+.gamePage h2 {
+    color: white;
+    font-size: 1.8em;
+}
+
+.gamePage p {
+    color: aliceblue;
+}
+
+#start {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.title {
+    width: 100vw;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.instructions {
+    padding-top: 9%;
+    padding-left: 7%;
+    text-align: center;
+    width: 30vw;
+    margin-right: 0;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.player {
+    margin-right: 15vw;
+}
+
+.player img {
+    width: 105px;
+    height: 110px;
+    border-color: navy;
+    margin-right: 20px;
+    padding: 5px;
+    border: solid 1px #EFEFEF;
+}
+
+a:hover .player img {
+    border: solid 1px #CCC;
+    -moz-box-shadow: 1px 1px 5px #999;
+    -webkit-box-shadow: 3px 3px 5px #999;
+    box-shadow: 5px 5px 5px #999;
+}
