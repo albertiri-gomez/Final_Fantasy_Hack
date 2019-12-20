@@ -76,28 +76,28 @@ Player.prototype.gravity = function() {
 Player.prototype.jump = function() {
     if (this.positionY - 5 > 0 && this.positionY - 5 >= this.h) {
         this.positionY -= 5
-        this.vy = -10
+        this.vy = -14
     }
 }
 
 //movimiento hacia adelante
 Player.prototype.moveF = function() {
     if (this.positionX + 20 > 0) {
-        this.positionX += 20
+        this.positionX += 30
     }
 }
 
 //movimiento hacia atras 
 Player.prototype.moveB = function() {
     if (this.positionX - 20 > 0) {
-        this.positionX -= 20
+        this.positionX -= 30
     }
 }
 
 //disparo del personaje
 Player.prototype.shoot = function() {
     //console.log("paso por aquí")
-    var bullet = new Bullet(this.game, this.positionX + 300, this.positionY + this.h/ 2, "img/dagger.png")
+    var bullet = new Bullet(this.game, this.positionX + 300, this.positionY + this.h/ 2, "img/espada_cloud.png")
     this.bullets.push(bullet)   
 }
 

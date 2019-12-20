@@ -21,6 +21,13 @@ var Game = {
     this.canvas.setAttribute("width", this.w);
     this.canvas.setAttribute("height", this.h);
     this.start();
+    this.sefirotSound = new Audio("Sound/sefirot_risa.mp3");
+    this.mainSound = new Audio("sound/main.mp3");
+    this.gameOverSound = new Audio("sound/Game Over.mp3");
+    this.winSound = new Audio("sound/Win.mp3");
+    this.renoSound = new Audio("sound/reno.mp3");
+    
+
     this.img = new Image();
     this.img.src = "img/game-over.png";
     this.img2 = new Image();
@@ -38,25 +45,26 @@ var Game = {
         this.framesCounter++;
         if (this.framesCounter > 1000) this.framesCounter = 0;
         if (this.framesCounter % 50 === 0) {
-          if (this.scor < 100) {
+          if (this.scor < 50) {
             this.generateEnemy();
           } else {
-            //this.generateFinalEnemy()
+            this.generateEnemy2();
             this.pushEnemy = [];
           }
         }
         // fin del bucle de renderizado
+        this.mainSound.play();
         this.moveAll();
         this.drawAll();
         this.clearEnemy();
-        if (this.died() ) {
+        if (this.died()) {
           this.scor -= 0.5;
         }
-        if(this.diedEnemy())
-        {this.scor -= 0.5;
+        if (this.diedEnemy()) {
+          this.scor -= 0.5;
         }
-        if(this.diedBullet())
-        {this.scor -= 0.5;
+        if (this.diedBullet()) {
+          this.scor -= 0.5;
         }
         if (this.Kill()) {
           this.scor + 10;
@@ -67,9 +75,6 @@ var Game = {
         if (this.scor >= 100) {
           this.Win();
         }
-        // if (this.vaderShoot()) {
-        //     this.scor -= 0.7
-        // }
       }.bind(this),
       1000 / this.fps
     );
@@ -84,12 +89,16 @@ var Game = {
   gameOver: function() {
     this.stop();
     this.ctx.drawImage(this.img, 310, 100, this.w / 2, this.h / 2);
+    this.gameOverSound.play();
+    this.mainSound.pause();
   },
 
   //funcion de ganar el juego
   Win: function() {
     this.stop();
     this.ctx.drawImage(this.img2, 420, 40, 480 * 1.2, 360 * 1.2);
+    this.winSound.play();
+    this.mainSound.pause();
   },
 
   //resetear el juego
@@ -105,7 +114,7 @@ var Game = {
 
   //colisiones para cuando te matan
   died: function() {
-     this.enemy.forEach(
+    this.enemy.forEach(
       function(enem) {
         if (
           this.player.positionX + this.player.w >= enem.x &&
@@ -116,39 +125,45 @@ var Game = {
           this.enemy.splice(enem, 1);
           this.scor -= 30;
         }
-      }.bind(this),
+      }.bind(this)
     );
   },
 
-  diedEnemy: function () {
-    return this.enemy2.forEach(function (enem) {
+  diedEnemy: function() {
+    return this.enemy2.forEach(
+      function(enem) {
         if (
-            this.player.positionX + this.player.w >= enem.x &&
-            this.player.positionX < enem.x + enem.w &&
-            this.player.positionY + this.player.h >= enem.y &&
-            this.player.positionY + this.player.h >= enem.y
+          this.player.positionX + this.player.w >= enem.x &&
+          this.player.positionX < enem.x + enem.w &&
+          this.player.positionY + this.player.h >= enem.y &&
+          this.player.positionY + this.player.h >= enem.y
         ) {
-            this.enemy2.splice(enem, 1);
-            this.scor -= 30;
+          this.enemy2.splice(enem, 1);
+          this.scor -= 30;
         }
-    }.bind(this)
+      }.bind(this)
     );
-},
+  },
 
-diedBullet: function () {
-    return this.enemy2.forEach(function (shoot) {
-        return shoot.bullet.forEach(function (benem) {
-            if ((this.player.positionX + this.player.w - 60) >= benem.x &&
-                this.player.positionX < (benem.x + benem.w) &&
-                this.player.positionY + (this.player.h) >= benem.y &&
-                this.player.positionY + (this.player.h - 60) >= benem.y
+  diedBullet: function() {
+    return this.enemy2.forEach(
+      function(shoot) {
+        return shoot.bullet.forEach(
+          function(benem) {
+            if (
+              this.player.positionX + this.player.w - 60 >= benem.x &&
+              this.player.positionX < benem.x + benem.w &&
+              this.player.positionY + this.player.h >= benem.y &&
+              this.player.positionY + (this.player.h - 60) >= benem.y
             ) {
-                shoot.bullet.splice(benem, 1);
-                this.scor -= 10;
+              shoot.bullet.splice(benem, 1);
+              this.scor -= 10;
             }
-        }.bind(this))
-    }.bind(this))
-},
+          }.bind(this)
+        );
+      }.bind(this)
+    );
+  },
 
   // colision para matar
   Kill: function() {
@@ -164,10 +179,12 @@ diedBullet: function () {
               this.player.bullets.splice(i, 1);
               this.enemy.splice(r, 1);
               this.scor += 30;
+              this.renoSound.play();
               if (this.scor >= 50) {
                 this.generateEnemy2();
                 this.pushEnemy = [];
                 this.scor - 0.5;
+                this.sefirotSound.play();
               }
             }
           }.bind(this)
@@ -205,14 +222,14 @@ diedBullet: function () {
     function aleatorio(max, min) {
       return Math.round(Math.random(pushEnemy) * (max - min) + min);
     }
-    var randomEnemy = aleatorio(4, 1);
+    var randomEnemy = aleatorio(3, 1);
     if (randomEnemy >= 3) {
       var pushEnemy = this.enemy.push(new Enemy(this));
     }
     if (this.scor >= 50) {
       this.generateEnemy2();
-      this.pushEnemy = [];
-      this.scor - 0.5;
+      this.sefirotSound.play();
+      this.pushEnemy = []
     }
     return randomEnemy;
   },
@@ -253,7 +270,6 @@ diedBullet: function () {
   drawScore: function() {
     this.score.update(this.scor, this.ctx);
   },
-
 
   generateEnemy2: function() {
     this.enemy2.push(new Enemy2(this));
