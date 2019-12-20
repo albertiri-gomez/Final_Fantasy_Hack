@@ -40,24 +40,36 @@ var Game = {
         if (this.framesCounter % 50 === 0) {
           if (this.scor < 100) {
             this.generateEnemy();
+          } else {
+            //this.generateFinalEnemy()
+            this.pushEnemy = [];
           }
         }
         // fin del bucle de renderizado
         this.moveAll();
         this.drawAll();
         this.clearEnemy();
-        if (this.Died()) {
+        if (this.died() ) {
           this.scor -= 0.5;
+        }
+        if(this.diedEnemy())
+        {this.scor -= 0.5;
+        }
+        if(this.diedBullet())
+        {this.scor -= 0.5;
+        }
+        if (this.Kill()) {
+          this.scor + 10;
         }
         if (this.scor < 0) {
           this.gameOver();
         }
         if (this.scor >= 100) {
-          this.youWin();
+          this.Win();
         }
-        if (this.Kill()) {
-          this.scor + 10;
-        }
+        // if (this.vaderShoot()) {
+        //     this.scor -= 0.7
+        // }
       }.bind(this),
       1000 / this.fps
     );
@@ -75,24 +87,25 @@ var Game = {
   },
 
   //funcion de ganar el juego
-  youWin: function() {
+  Win: function() {
     this.stop();
     this.ctx.drawImage(this.img2, 420, 40, 480 * 1.2, 360 * 1.2);
   },
 
-//resetear el juego
+  //resetear el juego
   reset: function() {
     this.background = new Background(this);
     this.player = new Player(this);
     this.framesCounter = 0;
     this.score = ScoreBoard;
     this.enemy = [];
+    this.enemy2 = [];
     this.scor = 0;
   },
 
-  //colisiones para cuando te matan 
-  Died: function() {
-    return this.enemy.forEach(
+  //colisiones para cuando te matan
+  died: function() {
+     this.enemy.forEach(
       function(enem) {
         if (
           this.player.positionX + this.player.w >= enem.x &&
@@ -103,20 +116,41 @@ var Game = {
           this.enemy.splice(enem, 1);
           this.scor -= 30;
         }
-      }.bind(this)
+      }.bind(this),
     );
-    // return this.enemy.some(function(enem) {
-    //     console.log(this.enemy);
-    //     return (
-    //         ((this.player.positionX + this.player.w ) >= enem.x &&
-    //             this.player.positionX < (enem.x + enem.w) &&
-    //             this.player.positionY + (this.player.h) >= enem.y &&
-    //             this.player.positionY + (this.player.h ) >= enem.y)
-    //     )
-    // }.bind(this))
   },
-  
-// colision para matar
+
+  diedEnemy: function () {
+    return this.enemy2.forEach(function (enem) {
+        if (
+            this.player.positionX + this.player.w >= enem.x &&
+            this.player.positionX < enem.x + enem.w &&
+            this.player.positionY + this.player.h >= enem.y &&
+            this.player.positionY + this.player.h >= enem.y
+        ) {
+            this.enemy2.splice(enem, 1);
+            this.scor -= 30;
+        }
+    }.bind(this)
+    );
+},
+
+diedBullet: function () {
+    return this.enemy2.forEach(function (shoot) {
+        return shoot.bullet.forEach(function (benem) {
+            if ((this.player.positionX + this.player.w - 60) >= benem.x &&
+                this.player.positionX < (benem.x + benem.w) &&
+                this.player.positionY + (this.player.h) >= benem.y &&
+                this.player.positionY + (this.player.h - 60) >= benem.y
+            ) {
+                shoot.bullet.splice(benem, 1);
+                this.scor -= 10;
+            }
+        }.bind(this))
+    }.bind(this))
+},
+
+  // colision para matar
   Kill: function() {
     this.enemy.forEach(
       function(enemy, r) {
@@ -130,21 +164,43 @@ var Game = {
               this.player.bullets.splice(i, 1);
               this.enemy.splice(r, 1);
               this.scor += 30;
+              if (this.scor >= 50) {
+                this.generateEnemy2();
+                this.pushEnemy = [];
+                this.scor - 0.5;
+              }
             }
           }.bind(this)
         );
-      }.bind(this)
+      }.bind(this),
+      this.enemy2.forEach(
+        function(enem, r) {
+          this.player.bullets.forEach(
+            function(bullet, i) {
+              if (
+                bullet.x + bullet.w > enem.x &&
+                bullet.y + bullet.h > enem.y &&
+                bullet.x < enem.x + enem.w
+              ) {
+                this.player.bullets.splice(i, 1);
+                this.enemy2.splice(r, 1);
+                this.scor += 10;
+              }
+            }.bind(this)
+          );
+        }.bind(this)
+      )
     );
   },
 
-  //limpia el enemigo cuando me da 
+  //limpia el enemigo cuando me da
   clearEnemy: function() {
     this.enemy = this.enemy.filter(function(enem) {
       return enem.x + enem.w >= 0;
     });
   },
 
-  //generacion de enemigos 
+  //generacion de enemigos
   generateEnemy: function() {
     function aleatorio(max, min) {
       return Math.round(Math.random(pushEnemy) * (max - min) + min);
@@ -153,9 +209,13 @@ var Game = {
     if (randomEnemy >= 3) {
       var pushEnemy = this.enemy.push(new Enemy(this));
     }
+    if (this.scor >= 50) {
+      this.generateEnemy2();
+      this.pushEnemy = [];
+      this.scor - 0.5;
+    }
     return randomEnemy;
   },
-  
 
   //limpia todo el escenario
   clear: function() {
@@ -166,6 +226,12 @@ var Game = {
   drawAll: function() {
     this.background.draw();
     this.player.draw();
+    this.enemy2.forEach(function(enem) {
+      enem.draw();
+      enem.bullet.forEach(function(b) {
+        b.draw();
+      });
+    });
     this.enemy.forEach(function(enem) {
       enem.draw();
     });
@@ -175,7 +241,9 @@ var Game = {
   //movimiento del los enemmigos y el personaje
   moveAll: function() {
     this.player.move();
-    // this.vader.forEach(function(fenem) { fenem.move(); })
+    this.enemy2.forEach(function(enem2) {
+      enem2.move();
+    });
     this.enemy.forEach(function(enem) {
       enem.move();
     });
@@ -184,5 +252,10 @@ var Game = {
   //pinta la puntuacion del juego
   drawScore: function() {
     this.score.update(this.scor, this.ctx);
+  },
+
+
+  generateEnemy2: function() {
+    this.enemy2.push(new Enemy2(this));
   }
 };
