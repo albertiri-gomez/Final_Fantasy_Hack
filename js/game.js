@@ -22,9 +22,9 @@ var Game = {
     this.canvas.setAttribute("height", this.h);
     this.start();
     this.img = new Image();
-    this.img.src = "img/gameover.jpg";
+    this.img.src = "img/game-over.png";
     this.img2 = new Image();
-    this.img2.src = "img/You Win.png";
+    this.img2.src = "img/you-win.png";
   },
 
   //funcion de empieze del juego

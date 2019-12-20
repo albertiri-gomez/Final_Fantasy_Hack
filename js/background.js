@@ -7,8 +7,6 @@ function Background(game) {
     this.img.src = "img/cloud_background.png"
     this.x = 0
     this.y = 0
-
-
 }
 
 Background.prototype.draw = function() {

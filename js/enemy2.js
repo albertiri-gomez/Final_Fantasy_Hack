@@ -3,11 +3,11 @@ function Enemy2(game) {
     this.x = this.game.canvas.width;
     this.y = this.game.canvas.height - 200;
     this.img = new Image
-    this.img.src = "img/sefirot.png"
+    this.img.src = "img/sefirot_3.png"
 
     this.dx = 5
-    this.w = 120
-    this.h = 190
+    this.w = 180
+    this.h = 220
     this.bullet = []
 
     this.shootBullet()

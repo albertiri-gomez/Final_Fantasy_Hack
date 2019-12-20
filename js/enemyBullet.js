@@ -7,7 +7,7 @@ function EnemyBullet(game, x, y) {
   this.w = 50;
   this.h = 30;
   this.img = new Image();
-  this.img.src = "img/laser.png";
+  this.img.src = "img/espada_sefirot.png";
   this.r = 5;
   this.w = 80;
   this.h = 65;
