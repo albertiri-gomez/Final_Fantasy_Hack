@@ -12,3 +12,4 @@ Pulsa espacio para arrojar tu propia arma y asi matar al enemigo.
 Para ganar la batalla has de llegar a 100 puntos.
 Perderas la batalla si tienes menos de 0 puntos.
 
+https://albertiri-gomez.github.io/Final_Fantasy_Hack/.
