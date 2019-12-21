@@ -184,7 +184,7 @@ var Game = {
                 this.generateEnemy2();
                 this.pushEnemy = [];
                 this.scor - 0.5;
-                this.sefirotSound.play();
+                // this.sefirotSound.play();
               }
             }
           }.bind(this)
