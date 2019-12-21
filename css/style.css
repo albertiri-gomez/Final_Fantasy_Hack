@@ -3,13 +3,14 @@ body {
 }
 
 .gamePage {
-    /* background-image: url(../img/fondo_empieze.png); */
+    background-image: url(../img/fondo.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
     width: 100vw;
     font-family: Opens Sans;
     font-size: 2em;
+    color: white;
 }
 
 .gamePage h1 {

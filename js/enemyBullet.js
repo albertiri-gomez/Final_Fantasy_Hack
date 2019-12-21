@@ -4,18 +4,12 @@ function EnemyBullet(game, x, y) {
   this.game = game;
   this.x = x;
   this.y = y;
-  this.w = 50;
-  this.h = 30;
   this.img = new Image();
   this.img.src = "img/espada_sefirot.png";
-  this.r = 5;
   this.w = 80;
   this.h = 65;
-
-  this.vx = 10;
+  this.vx = 7;
   this.vy = 1;
-
-  this.gravity = 0.25;
 }
 
 EnemyBullet.prototype.draw = function() {

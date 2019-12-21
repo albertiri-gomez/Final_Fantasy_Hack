@@ -18,8 +18,8 @@ var Game = {
     this.h = window.innerHeight;
     this.canvas.width = this.w;
     this.canvas.height = this.h;
-    this.canvas.setAttribute("width", this.w);
-    this.canvas.setAttribute("height", this.h);
+    // this.canvas.setAttribute("width", this.w);
+    // this.canvas.setAttribute("height", this.h);
     this.start();
     this.sefirotSound = new Audio("Sound/sefirot_risa.mp3");
     this.mainSound = new Audio("sound/main.mp3");
@@ -130,7 +130,7 @@ var Game = {
   },
 
   diedEnemy: function() {
-    return this.enemy2.forEach(
+     this.enemy2.forEach(
       function(enem) {
         if (
           this.player.positionX + this.player.w >= enem.x &&
@@ -146,9 +146,9 @@ var Game = {
   },
 
   diedBullet: function() {
-    return this.enemy2.forEach(
+     this.enemy2.forEach(
       function(shoot) {
-        return shoot.bullet.forEach(
+         shoot.bullet.forEach(
           function(benem) {
             if (
               this.player.positionX + this.player.w - 60 >= benem.x &&
