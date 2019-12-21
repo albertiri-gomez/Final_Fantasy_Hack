@@ -3,7 +3,7 @@ function Enemy(game) {
     this.x = this.game.canvas.width;
     this.y = this.game.canvas.height - 200;
     this.img = new Image()
-    this.img.src = "img/reno.png"
+    this.img.src = "img/Reno.png"
     this.dx = 5
     this.w = 170
     this.h = 220
