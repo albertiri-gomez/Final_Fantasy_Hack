@@ -151,10 +151,10 @@ var Game = {
          shoot.bullet.forEach(
           function(benem) {
             if (
-              this.player.positionX + this.player.w - 60 >= benem.x &&
+              this.player.positionX + this.player.w  >= benem.x &&
               this.player.positionX < benem.x + benem.w &&
               this.player.positionY + this.player.h >= benem.y &&
-              this.player.positionY + (this.player.h - 60) >= benem.y
+              this.player.positionY + (this.player.h ) >= benem.y
             ) {
               shoot.bullet.splice(benem, 1);
               this.scor -= 10;
