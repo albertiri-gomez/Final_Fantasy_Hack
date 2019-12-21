@@ -21,7 +21,7 @@ var Game = {
     // this.canvas.setAttribute("width", this.w);
     // this.canvas.setAttribute("height", this.h);
     this.start();
-    this.sefirotSound = new Audio("Sound/sefirot_risa.mp3");
+    // this.sefirotSound = new Audio("Sound/sefirot_risa.mp3");
     this.mainSound = new Audio("sound/main.mp3");
     this.gameOverSound = new Audio("sound/Game Over.mp3");
     this.winSound = new Audio("sound/Win.mp3");
